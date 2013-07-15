@@ -17,6 +17,9 @@
 		var color = d3.scale.linear()
 					.domain([0, 170])
 					.range(['red', 'blue']);
+		var color1 = d3.scale.linear()
+					.domain([0, 170])
+					.range(['blue', 'red']);
 
 		var axis = d3.svg.axis()
 					.scale(widthscale);
@@ -36,6 +39,22 @@
 					.attr('cy', function(d) {return widthscale(d);})
 					.attr('r', function(d) {return widthscale(Math.sqrt(d));})
 					.style('fill', function(d) { return color(d); });
+
+
+		circles.transition()
+						.duration(1500)
+						.delay(1000)
+						.attr("cx", function(d) {return d })
+						.attr("cy", function(d) { return d })
+						.style('fill', function(d) { return color1(d)})
+						.each("end", function() { d3.select(this)
+						.transition()
+						.duration(1500)
+						.delay(3000)
+						.attr("cx", function(d) {return d * 3 })
+						.attr("cy", function(d) { return d * 3})
+						.style('fill', function(d) { return color(d); }); });
+						
 
 		canvas.append('g').attr("transform", "translate(0, 600)").call(axis);
 
